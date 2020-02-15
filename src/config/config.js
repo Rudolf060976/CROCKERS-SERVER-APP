@@ -15,7 +15,10 @@ nconf.argv()
 
 nconf.defaults({
 
-        CONFIG1: "YYYYYYY"
+		CONFIG1: "YYYYYYY",
+		DB_NAME: "crockers-database",
+		Menu_Item_Image_Max_Size_MBytes: 20,
+		Erase_And_Seed_Database_on_Startup: true
 });
 
 const env = nconf.get('NODE_ENV') || 'development';
@@ -45,9 +48,15 @@ module.exports = {
 
     },
     db: {
-        DB_NAME: nconf.get('DB_NAME')       
+		DB_NAME: nconf.get('DB_NAME'),
+		Erase_And_Seed_Database_on_Startup: nconf.get('Erase_And_Seed_Database_on_Startup')       
     },
     user: {
         
-    }
+	},
+	app: {
+		items: {
+			MENU_ITEM_IMAGE_MAX_SIZE_MBYTES: nconf.get('Menu_Item_Image_Max_Size_MBytes')
+		}
+	}
 };
