@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const MongoGridFSStore = require('mongo-gridfs-storage');
+
 const fs = require('fs');
 
 const models = require('./models');
-const crudOperations = require('./crudOperations');
 
 const { ObjectID } = require('mongodb');
 
 
 const seedDatabase = async () => {
 
-	const gfs = new MongoGridFSStore(mongoose.connection.db, { bucketName: 'images'});
+
+	const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'images' });
 
 	const id1 = new ObjectID();
 
@@ -401,19 +401,20 @@ const seedDatabase = async () => {
 	const stream12 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE TRUFFLEMAKER.png');
 	const stream13 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE VEGAN BBQ.png');
 
-	await gfs.write(stream1, { id: idImageBurgers1, filename: 'file1' });
-	await gfs.write(stream2, { id: idImageBurgers2, filename: 'file2' });
-	await gfs.write(stream3, { id: idImageBurgers3, filename: 'file3' });
-	await gfs.write(stream4, { id: idImageBurgers4, filename: 'file4' });
-	await gfs.write(stream5, { id: idImageBurgers5, filename: 'file5' });
-	await gfs.write(stream6, { id: idImageBurgers6, filename: 'file6' });
-	await gfs.write(stream7, { id: idImageBurgers7, filename: 'file7' });
-	await gfs.write(stream8, { id: idImageBurgers8, filename: 'file8' });
-	await gfs.write(stream9, { id: idImageBurgers9, filename: 'file9' });
-	await gfs.write(stream10, { id: idImageBurgers10, filename: 'file10' });
-	await gfs.write(stream11, { id: idImageBurgers11, filename: 'file11' });
-	await gfs.write(stream12, { id: idImageBurgers12, filename: 'file12' });
-	await gfs.write(stream13, { id: idImageBurgers13, filename: 'file13' });
+	
+	stream1.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers1,'file1'));
+	stream2.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers2,'file2'));
+	stream3.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers3,'file3'));
+	stream4.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers4,'file4'));
+	stream5.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers5,'file5'));
+	stream6.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers6,'file6'));
+	stream7.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers7,'file7'));
+	stream8.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers8,'file8'));
+	stream9.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers9,'file9'));
+	stream10.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers10,'file10'));
+	stream11.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers11,'file11'));
+	stream12.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers12,'file12'));
+	stream13.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers13,'file13'));
 
 
 
@@ -424,11 +425,13 @@ const seedDatabase = async () => {
 	const stream17 = fs.createReadStream(__dirname + "/test_data/images/Fries/TRUFFLE 'EM FRIES.png");
 	const stream18 = fs.createReadStream(__dirname + "/test_data/images/Fries/SWEET POTATO FRIES.png");
 
-	await gfs.write(stream14, { id: idImageFries1, filename: 'file14' });
-	await gfs.write(stream15, { id: idImageFries2, filename: 'file15' });
-	await gfs.write(stream16, { id: idImageFries3, filename: 'file16' });
-	await gfs.write(stream17, { id: idImageFries4, filename: 'file17' });
-	await gfs.write(stream18, { id: idImageFries5, filename: 'file18' });
+	
+	stream14.pipe(gridFSBucket.openUploadStreamWithId(idImageFries1, 'file14'));
+	stream15.pipe(gridFSBucket.openUploadStreamWithId(idImageFries2, 'file15'));
+	stream16.pipe(gridFSBucket.openUploadStreamWithId(idImageFries3, 'file16'));
+	stream17.pipe(gridFSBucket.openUploadStreamWithId(idImageFries4, 'file17'));
+	stream18.pipe(gridFSBucket.openUploadStreamWithId(idImageFries5, 'file18'));
+
 
 
 	const stream19 = fs.createReadStream(__dirname + '/test_data/images/Salads/CROCKERS TACO SALAD.png');
@@ -436,10 +439,12 @@ const seedDatabase = async () => {
 	const stream21 = fs.createReadStream(__dirname + '/test_data/images/Salads/SIDE SALAD.png');
 	const stream22 = fs.createReadStream(__dirname + '/test_data/images/Salads/ALL GREEN EVERYTHING.png');
 
-	await gfs.write(stream19, { id: idImageSalads1, filename: 'file19' });
-	await gfs.write(stream20, { id: idImageSalads2, filename: 'file20' });
-	await gfs.write(stream21, { id: idImageSalads3, filename: 'file21' });
-	await gfs.write(stream22, { id: idImageSalads4, filename: 'file22' });
+	
+
+	stream19.pipe(gridFSBucket.openUploadStreamWithId(idImageSalads1, 'file19'));
+	stream20.pipe(gridFSBucket.openUploadStreamWithId(idImageSalads2, 'file20'));
+	stream21.pipe(gridFSBucket.openUploadStreamWithId(idImageSalads3, 'file21'));
+	stream22.pipe(gridFSBucket.openUploadStreamWithId(idImageSalads4, 'file22'));
 
 
 	const stream23 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/CHOCOLATE MILKSHAKE.png');
@@ -450,14 +455,15 @@ const seedDatabase = async () => {
 	const stream28 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VANILLA MILKSHAKE.png');
 	const stream29 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VEGAN COOKIES AND CREAM MILKSHAKE.png');
 
-	await gfs.write(stream23, { id: idImageMilkShakes1, filename: 'file23' });
-	await gfs.write(stream24, { id: idImageMilkShakes2, filename: 'file24' });
-	await gfs.write(stream25, { id: idImageMilkShakes3, filename: 'file25' });
-	await gfs.write(stream26, { id: idImageMilkShakes4, filename: 'file26' });
-	await gfs.write(stream27, { id: idImageMilkShakes5, filename: 'file27' });
-	await gfs.write(stream28, { id: idImageMilkShakes6, filename: 'file28' });
-	await gfs.write(stream29, { id: idImageMilkShakes7, filename: 'file29' });
+	
 
+	stream23.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes1, 'file23'));
+	stream24.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes2, 'file24'));
+	stream25.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes3, 'file25'));
+	stream26.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes4, 'file26'));
+	stream27.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes5, 'file27'));
+	stream28.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes6, 'file28'));
+	stream29.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes7, 'file29'));
 
 	console.log('DATABASE CREATED AND TEST DATA LOADED ......')
 

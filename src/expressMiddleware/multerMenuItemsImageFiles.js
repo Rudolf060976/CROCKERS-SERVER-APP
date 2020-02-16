@@ -6,7 +6,7 @@ const config = require('../config/config');
 
 const conn = require('mongoose').connection;
 
-const ObjectID = require('mongodb');
+const { ObjectID } = require('mongodb');
 
 const crudOperations = require('../database/crudOperations');
 
@@ -25,7 +25,7 @@ const generateImageFileId = function(itemId) {
 const gfsStorageImageFile = new GridFSStorage({
 
 	db: conn,
-	file: async function(req, file) {
+	file: function(req, file) {
 
 		const { menuItemId } = req.params;
 
@@ -61,7 +61,7 @@ const fileFilter = (req, file, cb) => {
 
 const uploadImageFile = multer({
 	storage: gfsStorageImageFile,
-	limits: limits,
+	limits,
 	fileFilter
 })
 

@@ -8,7 +8,7 @@ const { ApolloError } = require('apollo-server-express');
 
 const mongoose = require('mongoose');
 
-const MongoGridFsStorage = require('mongo-gridfs-storage'); /* WE USE THIS MODULE JUST FOR READ FILES FROM THE GRIDFSBUCKET */
+//const MongoGridFsStorage = require('mongo-gridfs-storage'); /* WE USE THIS MODULE JUST FOR READ FILES FROM THE GRIDFSBUCKET */
 
 const addNewMenuItem = async (filter) => {
 
@@ -125,13 +125,20 @@ const getImageFromStore = async imageId => {
 	
 	try {
 		
-		const gfs = new MongoGridFsStorage(mongoose.connection.db, { bucketName: 'images' })
+		const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'images'});
 
-		const filter = {
-			_id: ObjectID.createFromHexString(imageId)
-		};
+		// const gfs = new MongoGridFsStorage(mongoose.connection.db, { bucketName: 'images' })
 
-		const fileBuffer = await gfs.read(filter);
+		//const filter = {
+		//	_id: ObjectID.createFromHexString(imageId)
+		// };
+
+		//const fileBuffer = await gfs.read(filter);
+
+		const readableStream = gridFSBucket.openDownloadStream(ObjectID.createFromHexString(imageId));
+
+		const fileBuffer = readableStream.read();
+
 
 		return fileBuffer;
 

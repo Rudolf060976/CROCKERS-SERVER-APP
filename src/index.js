@@ -42,9 +42,9 @@ connectDB().then( async () => {
 
 	if (config.db.Erase_And_Seed_Database_on_Startup) {
 
-		// await eraseDatabase();
+		await eraseDatabase();
 
-		// await seedDatabase();
+		await seedDatabase();
 	}
 
 	const server = new ApolloServer({

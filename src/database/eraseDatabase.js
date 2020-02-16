@@ -1,8 +1,24 @@
 const models = require('./models');
+const mongoose = require('mongoose');
 
-const eraseDatabase = () => {
+const eraseDatabase = async () => {
 
-	return Promise.all([models.MenuGroup.deleteMany({}), models.MenuItem.deleteMany({})]);
+	
+	try {
+	
+		const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'images'}); // USAMOS DIRECTAMENTE EL DRIVER DE MONGODB PARA TENER ACCESO A GRIDFSBUCKET
+
+		await Promise.all([models.MenuGroup.deleteMany({}), models.MenuItem.deleteMany({}), gridFSBucket.drop()]);
+
+		// USAMOS EL TRY CATCH PORQUE EL MÉTODO gridFSBucket arroja un ERROR si no existe la colección images
+
+	} catch (error) {
+		
+		await Promise.all([models.MenuGroup.deleteMany({}), models.MenuItem.deleteMany({})]);
+
+	}
+	
+	
 
 };
 
