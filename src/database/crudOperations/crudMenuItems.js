@@ -8,7 +8,7 @@ const { ApolloError } = require('apollo-server-express');
 
 const mongoose = require('mongoose');
 
-//const MongoGridFsStorage = require('mongo-gridfs-storage'); /* WE USE THIS MODULE JUST FOR READ FILES FROM THE GRIDFSBUCKET */
+const MongoGridFSStore = require('mongo-gridfs-storage'); /* WE USE THIS MODULE JUST FOR READ FILES FROM THE GRIDFSBUCKET */
 
 const addNewMenuItem = async (filter) => {
 
@@ -125,20 +125,20 @@ const getImageFromStore = async imageId => {
 	
 	try {
 		
-		const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'images'});
+		//const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'images'});
 
-		// const gfs = new MongoGridFsStorage(mongoose.connection.db, { bucketName: 'images' })
+		const gfs = new MongoGridFSStore(mongoose.connection.db, { bucketName: 'images' })
 
-		//const filter = {
-		//	_id: ObjectID.createFromHexString(imageId)
-		// };
+		const filter = {
+			_id: ObjectID.createFromHexString(imageId)
+		};
 
-		//const fileBuffer = await gfs.read(filter);
+		const fileBuffer = await gfs.read(filter);
 
-		const readableStream = gridFSBucket.openDownloadStream(ObjectID.createFromHexString(imageId));
+		//const readableStream = gridFSBucket.openDownloadStream(ObjectID.createFromHexString(imageId));
 
-		const fileBuffer = readableStream.read();
-
+		
+		//return readableStream; // DEVOLVEMOS UN GridFSBucketReadStream el cual puede hacer pipe con el Response Object
 
 		return fileBuffer;
 
@@ -157,12 +157,60 @@ const getImageFromStore = async imageId => {
 };
 
 
+const getManyImagesFromStore = async filter => {
+
+	// filter = { ids: [id1, id2, id3, id4.....] }
+
+	try {
+		
+		const gfs = new MongoGridFSStore(mongoose.connection.db, { bucketName: 'images' });
+
+		const { ids } = filter;
+
+		const filesPromises = ids.map(id => {
+
+			return gfs.read({ _id: ObjectID.createFromHexString(id) });
+
+		});
+
+		const dataArray = await Promise.all(filesPromises);
+
+		const outputArray = [];
+
+		for( let i = 0; i < ids.length; i++) {
+
+			outputArray.push({
+				_id: ids[i],
+				image: dataArray[i]
+			});
+
+		}
+
+		return outputArray;
+
+	} catch (error) {
+		
+		if (!error.status) {
+
+			error.status = 500;
+
+		}
+
+		throw createError(error.status, error.message);
+
+	}
+
+
+};
+
+
 module.exports = {
 	addNewMenuItem,
 	addMenuItemImage,
 	removeMenuItem,
 	getMenuItemById,
 	getImageFromStore,
+	getManyImagesFromStore,
 	getMenuItemsShowAtHome
 };
 

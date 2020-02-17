@@ -8,6 +8,7 @@ const crudOperations = require('../database/crudOperations');
 
 const router = express.Router();
 
+const parseFilterObjectFromQueryString = require('../modules/General/parseFilterObjectFromQueryString.js');
 
 router.get('/images/:imageId', (req, res) => {
 
@@ -19,11 +20,12 @@ router.get('/images/:imageId', (req, res) => {
 
 			res.status(200)
 					.set({
-						'content-type':'image/jpeg',
+						'content-type':'application/octet-stream',
 						'api-url': '/api/menuitems/images/'					
 					})
 					.send(fileBuffer);
-
+			
+			// readableStream.pipe(res);
 
 		}).catch(err => {
 
@@ -49,6 +51,42 @@ router.get('/images/:imageId', (req, res) => {
 
 	}
 
+
+});
+
+	
+router.get('/images/many', (req, res) => {
+	
+	// WE RECEIVE A FILTER PARAM FROM QUERY STRING
+
+	const filter = parseFilterObjectFromQueryString(req);
+				
+	crudOperations.MenuItem.getManyImagesFromStore(filter).then(outputArray => {
+						
+		res.status(200)
+			.set({
+				'content-type':'json',
+				'api-url': '/api/items/images/'						
+			})
+			.json({
+				error: null,
+				ok: true,
+				status: 200,
+				message: 'OK',
+				data: outputArray
+			});
+	}).catch(err => {
+
+		res.status(err.status).json({
+			error: err,
+			ok: false,
+			status: err.status,
+			message: err.message,
+			data: null
+		});
+
+	});
+			
 
 });
 
