@@ -2,6 +2,8 @@ const config = require('./config/config');
 
 const express = require('express');
 
+const logger = require('morgan');
+
 const { ApolloServer, gql } = require('apollo-server-express');
 
 const schema = require('./graphql/schema');
@@ -27,18 +29,13 @@ const eraseDatabase = require('./database/eraseDatabase');
 
 const seedDatabase = require('./database/seedDatabase');
 
-const app = express();
-
-app.use(express.static(path.join(__dirname,'./../','public')));
-
-app.use(cors());
-
-app.options('*', cors());  // AL PRINCIPIO DE TODAS LAS RUTAS
-
+const corsOptions = {
+    origin: config.general.Client_URL,
+    credentials: true
+};
 
 connectDB().then( async () => {
-
-	const menuItemRoutes = require('./expressRoutes/menuItemRoutes');
+	
 
 	if (config.db.Erase_And_Seed_Database_on_Startup) {
 
@@ -60,10 +57,26 @@ connectDB().then( async () => {
 			};
 		}
 	});
+
+	const app = express();
 	
+	app.use(logger('dev'));
+		
+	const menuItemRoutes = require('./expressRoutes/menuItemRoutes');
+
+
+	server.applyMiddleware({ app, path: '/graphql', cors: corsOptions });
+
 	
-	server.applyMiddleware({ app, path: '/graphql'});
+	app.use(express.static(path.join(__dirname,'./../','public')));
+
 	
+	app.use(cors(corsOptions));
+
+
+	app.options('*', cors(corsOptions));  // AL PRINCIPIO DE TODAS LAS RUTAS
+
+
 	app.use('/api/menuitems', menuItemRoutes);
 
 
@@ -73,6 +86,7 @@ connectDB().then( async () => {
 		
 	});
 	
+
 	app.listen({ port: config.env.PORT }, () => {
 	
 		console.log('Apollo Server on http://localhost:8000/graphql');

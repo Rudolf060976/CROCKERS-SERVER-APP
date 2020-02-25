@@ -18,7 +18,8 @@ nconf.defaults({
 		CONFIG1: "YYYYYYY",
 		DB_NAME: "crockers-database",
 		Menu_Item_Image_Max_Size_MBytes: 20,
-		Erase_And_Seed_Database_on_Startup: true
+        Erase_And_Seed_Database_on_Startup: true,
+        Client_URL: "http://localhost:3000"
 });
 
 const env = nconf.get('NODE_ENV') || 'development';
@@ -45,7 +46,7 @@ module.exports = {
         PORT: nconf.get('PORT'),
     },
     general: {
-
+        Client_URL: nconf.get('Client_URL')
     },
     db: {
 		DB_NAME: nconf.get('DB_NAME'),
@@ -57,6 +58,6 @@ module.exports = {
 	app: {
 		items: {
 			MENU_ITEM_IMAGE_MAX_SIZE_MBYTES: nconf.get('Menu_Item_Image_Max_Size_MBytes')
-		}
+        }
 	}
 };
