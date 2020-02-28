@@ -190,7 +190,7 @@ const seedDatabase = async () => {
 			description: 'one impossible patty | vegan bun | miso-mustard | secret sauce | vegan american cheese | curly lettuce | raw onion | dill pickles | tomato',
 			group: id1,
 			price: 11.99,
-			showAtHome: false,
+			showAtHome: true,
 			createdAt: new Date().getTime() + 11000,
 			image: idImageBurgers11
 		},
@@ -387,19 +387,19 @@ const seedDatabase = async () => {
 	]);
 
 
-	const stream1 = fs.createReadStream(__dirname + '/test_data/images/Burgers/CROCKERS.png');
-	const stream2 = fs.createReadStream(__dirname + '/test_data/images/Burgers/MANLY.png');
-	const stream3 = fs.createReadStream(__dirname + '/test_data/images/Burgers/PLAIN & SIMPLE.png');
-	const stream4 = fs.createReadStream(__dirname + '/test_data/images/Burgers/SUNNY SIDE.png');
-	const stream5 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THE BEEFY.png');
-	const stream6 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THROWBACK.png');
-	const stream7 = fs.createReadStream(__dirname + '/test_data/images/Burgers/TRUFFLE.png');
-	const stream8 = fs.createReadStream(__dirname + '/test_data/images/Burgers/WAG-YU-MAMI.png');
-	const stream9 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THE CALI.png');
-	const stream10 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE BURGER.png');
-	const stream11 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE CLASSIC CHEESEBURGER.png');
-	const stream12 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE TRUFFLEMAKER.png');
-	const stream13 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE VEGAN BBQ.png');
+	const stream1 = fs.createReadStream(__dirname + '/test_data/images/Burgers/CROCKERS.jpg');
+	const stream2 = fs.createReadStream(__dirname + '/test_data/images/Burgers/MANLY.jpg');
+	const stream3 = fs.createReadStream(__dirname + '/test_data/images/Burgers/PLAIN & SIMPLE.jpg');
+	const stream4 = fs.createReadStream(__dirname + '/test_data/images/Burgers/SUNNY SIDE.jpg');
+	const stream5 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THE BEEFY.jpg');
+	const stream6 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THROWBACK.jpg');
+	const stream7 = fs.createReadStream(__dirname + '/test_data/images/Burgers/TRUFFLE.jpg');
+	const stream8 = fs.createReadStream(__dirname + '/test_data/images/Burgers/WAG-YU-MAMI.jpg');
+	const stream9 = fs.createReadStream(__dirname + '/test_data/images/Burgers/THE CALI.jpg');
+	const stream10 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE BURGER.jpg');
+	const stream11 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE CLASSIC CHEESEBURGER.jpg');
+	const stream12 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE TRUFFLEMAKER.jpg');
+	const stream13 = fs.createReadStream(__dirname + '/test_data/images/Burgers/IMPOSSIBLE VEGAN BBQ.jpg');
 
 	
 	stream1.pipe(gridFSBucket.openUploadStreamWithId(idImageBurgers1,'file1'));
@@ -419,11 +419,11 @@ const seedDatabase = async () => {
 
 
 
-	const stream14 = fs.createReadStream(__dirname + '/test_data/images/Fries/THIN AND CRISPY FRIES.png');
-	const stream15 = fs.createReadStream(__dirname + "/test_data/images/Fries/LOAD 'EM FRIES.png");
-	const stream16 = fs.createReadStream(__dirname + "/test_data/images/Fries/MAKE 'EM MESSY FRIES.png");
-	const stream17 = fs.createReadStream(__dirname + "/test_data/images/Fries/TRUFFLE 'EM FRIES.png");
-	const stream18 = fs.createReadStream(__dirname + "/test_data/images/Fries/SWEET POTATO FRIES.png");
+	const stream14 = fs.createReadStream(__dirname + '/test_data/images/Fries/THIN AND CRISPY FRIES.jpg');
+	const stream15 = fs.createReadStream(__dirname + "/test_data/images/Fries/LOAD 'EM FRIES.jpg");
+	const stream16 = fs.createReadStream(__dirname + "/test_data/images/Fries/MAKE 'EM MESSY FRIES.jpg");
+	const stream17 = fs.createReadStream(__dirname + "/test_data/images/Fries/TRUFFLE 'EM FRIES.jpg");
+	const stream18 = fs.createReadStream(__dirname + "/test_data/images/Fries/SWEET POTATO FRIES.jpg");
 
 	
 	stream14.pipe(gridFSBucket.openUploadStreamWithId(idImageFries1, 'file14'));
@@ -434,10 +434,10 @@ const seedDatabase = async () => {
 
 
 
-	const stream19 = fs.createReadStream(__dirname + '/test_data/images/Salads/CROCKERS TACO SALAD.png');
-	const stream20 = fs.createReadStream(__dirname + '/test_data/images/Salads/NEW STYLE CAESAR.png');
-	const stream21 = fs.createReadStream(__dirname + '/test_data/images/Salads/SIDE SALAD.png');
-	const stream22 = fs.createReadStream(__dirname + '/test_data/images/Salads/ALL GREEN EVERYTHING.png');
+	const stream19 = fs.createReadStream(__dirname + '/test_data/images/Salads/CROCKERS TACO SALAD.jpg');
+	const stream20 = fs.createReadStream(__dirname + '/test_data/images/Salads/NEW STYLE CAESAR.jpg');
+	const stream21 = fs.createReadStream(__dirname + '/test_data/images/Salads/SIDE SALAD.jpg');
+	const stream22 = fs.createReadStream(__dirname + '/test_data/images/Salads/ALL GREEN EVERYTHING.jpg');
 
 	
 
@@ -447,13 +447,13 @@ const seedDatabase = async () => {
 	stream22.pipe(gridFSBucket.openUploadStreamWithId(idImageSalads4, 'file22'));
 
 
-	const stream23 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/CHOCOLATE MILKSHAKE.png');
-	const stream24 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/CHOCOLATE PEANUT BUTTER MILKSHAKE.png');
-	const stream25 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/SALTED CARAMEL MILKSHAKE.png');
-	const stream26 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/STRAWBERRY MILKSHAKE.png');
-	const stream27 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/TRIPLE CHOCOLATE MILKSHAKE.png');
-	const stream28 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VANILLA MILKSHAKE.png');
-	const stream29 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VEGAN COOKIES AND CREAM MILKSHAKE.png');
+	const stream23 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/CHOCOLATE MILKSHAKE.jpg');
+	const stream24 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/CHOCOLATE PEANUT BUTTER MILKSHAKE.jpg');
+	const stream25 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/SALTED CARAMEL MILKSHAKE.jpg');
+	const stream26 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/STRAWBERRY MILKSHAKE.jpg');
+	const stream27 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/TRIPLE CHOCOLATE MILKSHAKE.jpg');
+	const stream28 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VANILLA MILKSHAKE.jpg');
+	const stream29 = fs.createReadStream(__dirname + '/test_data/images/Milkshakes/VEGAN COOKIES AND CREAM MILKSHAKE.jpg');
 
 	
 
