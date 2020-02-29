@@ -2,5 +2,11 @@ const menuGroupResolver = require('./MenuGroup');
 
 const menuItemResolver = require('./MenuItem');
 
+const { GraphQLDate } = require('graphql-iso-date');
 
-module.exports = [menuGroupResolver, menuItemResolver];
+
+const customScalarResolver = {
+	Date: GraphQLDate
+};
+
+module.exports = [customScalarResolver, menuGroupResolver, menuItemResolver];

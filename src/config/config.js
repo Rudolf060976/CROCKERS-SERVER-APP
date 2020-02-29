@@ -19,7 +19,9 @@ nconf.defaults({
 		DB_NAME: "crockers-database",
 		Menu_Item_Image_Max_Size_MBytes: 20,
         Erase_And_Seed_Database_on_Startup: true,
-        Client_URL: "http://localhost:3000"
+        Client_URL: "http://localhost:3000",
+        Token_Expiration_Time_In_Seconds: 30,
+        Token_Secret_String: "wr3r23fwfwefwekwself.2456342.dawqdq"
 });
 
 const env = nconf.get('NODE_ENV') || 'development';
@@ -53,7 +55,8 @@ module.exports = {
 		Erase_And_Seed_Database_on_Startup: nconf.get('Erase_And_Seed_Database_on_Startup')       
     },
     user: {
-        
+        Token_Expiration_Time_In_Seconds: nconf.get('Token_Expiration_Time_In_Seconds'),
+        Token_Secret_String: "wr3r23fwfwefwekwself.2456342.dawqdq"
 	},
 	app: {
 		items: {

@@ -1,18 +1,21 @@
 const { gql } = require('apollo-server-express');
 
-
 const schema = gql`
-
+scalar Date
 
 type Query {
 	getAllMenuGroups: [MenuGroup]
 	getMenuItemsByGroup(groupId: ID!,first: Int, last: Int, after: String, before: String): MenuItemConnection!
 	getMenuItemsShowAtHome: [MenuItem]
+	me: BasicUser
+	getUser: User
 }
 
 type Mutation {
 	addNewMenuGroup(input: newMenuGroupInput): AddNewMenuGroupMutationResponse!
 	addNewMenuItem(input: newMenuItemInput): AddNewMenuItemMutationResponse!
+	signUp(input: signUpInput!): Token!
+	logIn(login: String!, password: String!): Token!
 }
 
 input newMenuGroupInput {
@@ -25,6 +28,34 @@ input newMenuItemInput {
 	description: String
 	group: ID!
 	price: Float		
+}
+
+input singUpInput {
+	username: String!
+	email: String!
+	firstname: String!
+	lastname: String!
+	gender: Gender!
+	dateOfBirth: Date!
+    mainPhoneNumber: String!
+    secondaryPhoneNumber: String
+    password: String!
+    country: String!
+    city: String!
+    zone: String!,
+    mainAddress: String!,
+    referencePoint: String,
+    receiveNews: Boolean!
+}
+
+enum Gender {
+	Male
+	Female
+}
+
+enum Role {
+	ADMIN
+	USER
 }
 
 interface MutationResponse {
@@ -82,6 +113,39 @@ type MenuItem {
 	image: ID
 	showAtHome: Boolean!
 }
+
+type BasicUser {
+	id: ID!
+	username: String!
+	email: String!
+	firstname: String!
+	lastname: String!
+	role: Role!
+}
+
+type User {
+	id: ID!
+	username: String!
+	email: String!
+	firstname: String!
+	lastname: String!
+	gender: Gender!
+	dateOfBirth: Date!
+	mainPhoneNumber: String!
+	secondaryPhoneNumber: String
+	country: String!
+	city: String!
+	zone: String!
+	mainAddress: String!
+	referencePoint: String!	
+	role: Role!
+}
+
+type Token {
+	token: String!
+}
+
+
 
 `;
 

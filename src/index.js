@@ -4,7 +4,7 @@ const express = require('express');
 
 const logger = require('morgan');
 
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer, AuthenticationError } = require('apollo-server-express');
 
 const schema = require('./graphql/schema');
 
@@ -29,6 +29,8 @@ const eraseDatabase = require('./database/eraseDatabase');
 
 const seedDatabase = require('./database/seedDatabase');
 
+const userTokens = require('./modules/JWT/userTokens');
+
 const corsOptions = {
     origin: config.general.Client_URL,
     credentials: true
@@ -47,13 +49,65 @@ connectDB().then( async () => {
 	const server = new ApolloServer({
 		typeDefs: schema,
 		resolvers,
-		context: ({ req }) => {
+		context: async ({ req }) => {
+
+			let me = null; // me SON LOS DATOS BASICOS DEL USUARIO AUTENTICADO, SI LO HAY
+
+			const token = req.headers['x-token'];
+
+			if (token) {
+
+				try {
+
+					const payload = userTokens.verifyUserToken(token);
+
+					if (payload) {
+
+						const { id } = payload;
+
+						const user = await crudOperations.User.getUserById(id);
+
+						if (user) {
+
+							const {
+								_id,
+								username,
+								email,
+								firstname,
+								lastname,
+								role								
+							} = user;
+
+							me = {
+								id: _id,
+								username,
+								email,
+								firstname,
+								lastname,
+								role
+							};
+
+
+						}
+
+					}
+					
+				} catch (error) {
+					
+					throw new AuthenticationError('Invalid or Expired Token. Log In again');
+
+				}
+
+			}	// NON AUTHENTICATED USERS - WHEN me = null - MIGHT BE ABLE TO PERFORM CERTAIN TYPES OF ACIONS AT
+			// THE RESOLVERS LEVEL
+
 			return {
 				ObjectID,
 				models,
 				crudOperations,
 				mongoose,
-				helperFunctions
+				helperFunctions,
+				me
 			};
 		}
 	});
