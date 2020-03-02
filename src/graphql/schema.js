@@ -30,7 +30,7 @@ input newMenuItemInput {
 	price: Float		
 }
 
-input singUpInput {
+input signUpInput {
 	username: String!
 	email: String!
 	firstname: String!
@@ -41,6 +41,7 @@ input singUpInput {
     secondaryPhoneNumber: String
     password: String!
     country: String!
+	region: String!
     city: String!
     zone: String!,
     mainAddress: String!,
@@ -134,6 +135,7 @@ type User {
 	mainPhoneNumber: String!
 	secondaryPhoneNumber: String
 	country: String!
+	region: String!
 	city: String!
 	zone: String!
 	mainAddress: String!

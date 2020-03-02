@@ -35,6 +35,7 @@ const resolvers = {
                     mainPhoneNumber,
                     secondaryPhoneNumber,
                     country,
+                    region,
                     city,
                     zone,
                     mainAddress,
@@ -53,6 +54,7 @@ const resolvers = {
                     mainPhoneNumber,
                     secondaryPhoneNumber,
                     country,
+                    region,
                     city,
                     zone,
                     mainAddress,
@@ -95,9 +97,6 @@ const resolvers = {
 
         }
     }
-
-
-
 
 };
 

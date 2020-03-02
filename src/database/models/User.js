@@ -12,14 +12,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        maxlength: 30,
+        maxlength: 70,
         minlength: 1
     },
     email: {
 		type: String,
 		required: true,
 		unique: true,
-		trim: true,
+        trim: true,
+        maxlength: 100,
 		validate: {
 			validator: function(v) {
 				return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
@@ -31,14 +32,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        maxlength: 20,
+        maxlength: 40,
         minlength: 1
     },
     lastname: {
         type: String,
         required: true,
         trim: true,
-        maxlength: 20,
+        maxlength: 40,
         minlength: 1
     },
     gender: {
@@ -78,17 +79,23 @@ const userSchema = new mongoose.Schema({
         trim: true ,
         maxlength: 100 
     },
+    region: {
+        type: String,
+        required: true,
+        trim: true ,
+        maxlength: 50 
+    },
     city: {
         type: String,
         required: true,
         trim: true,
-        maxlength: 300        
+        maxlength: 50        
     },
     zone: {
         type: String,
         required: true,
         trim: true,
-        maxlength: 300        
+        maxlength: 100        
     },
     mainAddress: {
         type: String,

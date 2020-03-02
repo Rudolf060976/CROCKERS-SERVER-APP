@@ -9,41 +9,11 @@ const addNewUser = async (filter) => {
 
     try {
         
-        const {
-            username,
-            email,
-            firstname,
-            lastname,
-            gender,
-            dateOfBirth,
-            mainPhoneNumber,
-            secondaryPhoneNumber,
-            password,
-            country,
-            city,
-            zone,
-            mainAddress,
-            referencePoint,
-            receiveNews
-        } = filter;
+        
 
         const user = await models.User.create({
             _id: new ObjectID(),
-            username,
-            email,
-            firstname,
-            lastname,
-            gender,
-            dateOfBirth,
-            mainPhoneNumber,
-            secondaryPhoneNumber,
-            password,
-            country,
-            city,
-            zone,
-            mainAddress,
-            referencePoint,
-            receiveNews
+            ...filter
         });
 
         return user[0];
