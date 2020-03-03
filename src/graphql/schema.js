@@ -7,6 +7,7 @@ type Query {
 	getAllMenuGroups: [MenuGroup]
 	getMenuItemsByGroup(groupId: ID!,first: Int, last: Int, after: String, before: String): MenuItemConnection!
 	getMenuItemsShowAtHome: [MenuItem]
+	getIfUserExists(username: String!, email: String!): UserExistResponse!
 	me: BasicUser
 	getUser: User
 }
@@ -16,6 +17,11 @@ type Mutation {
 	addNewMenuItem(input: newMenuItemInput): AddNewMenuItemMutationResponse!
 	signUp(input: signUpInput!): Token!
 	logIn(login: String!, password: String!): Token!
+}
+
+type UserExistResponse {
+	username: Boolean!
+	email: Boolean!
 }
 
 input newMenuGroupInput {

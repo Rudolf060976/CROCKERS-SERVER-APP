@@ -24,7 +24,7 @@ const addNewMenuItem = async (filter) => {
 			price
 		});
 
-		return item[0];
+		return item;
 
 	} catch (error) {
 		

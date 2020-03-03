@@ -8,19 +8,17 @@ const { ObjectID } = require('mongodb');
 const addNewUser = async (filter) => {
 
     try {
-        
-        
-
+                
         const user = await models.User.create({
             _id: new ObjectID(),
             ...filter
         });
-
-        return user[0];
+        
+        return user;
 
     } catch (error) {
         
-        throw new ApolloError('Could not create new User', '500');
+        throw new ApolloError('Could not create new User:' + error.message, '500');
 
     }
 
@@ -42,7 +40,7 @@ const getUserById = async userId => {
 
     } catch (error) {
         
-        throw new ApolloError('Could not find the Item', '500');
+        throw new ApolloError('Could not find the Item', error.code);
 
     }
 

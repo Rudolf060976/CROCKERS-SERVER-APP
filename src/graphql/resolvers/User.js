@@ -17,7 +17,7 @@ const resolvers = {
 
         },
         getUser: combineResolvers(
-            Authorization.isAdmin,
+            Authorization.isAuthenticated,
             async (parent, args, { crudOperations, me }) => {
 
                 const { id } = me;
@@ -62,13 +62,38 @@ const resolvers = {
                     role
                 };
             }
-        )
+        ),
+        getIfUserExists: async (parent, { username, email }, { models }) => {
+
+            const user = await models.User.findOne({ username });
+
+            let un = true;
+
+            if(!user) {
+                un = false;
+            }
+
+            const user2 = await models.User.findOne({ email });
+
+            let em = true;
+
+            if(!user2) {
+                em = false;
+            }
+
+            return {
+                username: un,
+                email: em
+            };
+
+        }
 
     },
     Mutation: {
-        signUp: (parent, { input }, { crudOperations }) => {
+        signUp: async (parent, { input }, { crudOperations }) => {
 
-            const user = crudOperations.User.addNewUser(input);
+            
+            const user = await crudOperations.User.addNewUser(input);
 
             const token = userTokens.generateUserToken(user);
 

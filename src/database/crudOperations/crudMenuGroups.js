@@ -15,7 +15,7 @@ const addNewMenuGroup = async (name, description) => {
 			description
 		});
 
-		return group[0];
+		return group;
 
 	} catch (error) {
 		
