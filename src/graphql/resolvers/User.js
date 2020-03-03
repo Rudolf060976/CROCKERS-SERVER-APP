@@ -91,8 +91,7 @@ const resolvers = {
     },
     Mutation: {
         signUp: async (parent, { input }, { crudOperations }) => {
-
-            
+                       
             const user = await crudOperations.User.addNewUser(input);
 
             const token = userTokens.generateUserToken(user);

@@ -50,17 +50,21 @@ connectDB().then( async () => {
 		typeDefs: schema,
 		resolvers,
 		context: async ({ req }) => {
-
+			
 			let me = null; // me SON LOS DATOS BASICOS DEL USUARIO AUTENTICADO, SI LO HAY
 
-			const token = req.headers['x-token'];
-
+			let token = req.headers['x-token'];
+			
+			if(token === 'undefined' || token === '') {
+				token = null;				
+			}
+			console.log('TOKEN :', token);
 			if (token) {
-
+				
 				try {
-
+					
 					const payload = userTokens.verifyUserToken(token);
-
+					
 					if (payload) {
 
 						const { id } = payload;
@@ -94,13 +98,15 @@ connectDB().then( async () => {
 					
 				} catch (error) {
 					
-					throw new AuthenticationError('Invalid or Expired Token. Log In again');
+					// throw new AuthenticationError('Invalid or Expired Token. Log In again');
+
+					me = null;
 
 				}
 
 			}	// NON AUTHENTICATED USERS - WHEN me = null - MIGHT BE ABLE TO PERFORM CERTAIN TYPES OF ACIONS AT
 			// THE RESOLVERS LEVEL
-
+			
 			return {
 				ObjectID,
 				models,
