@@ -58,7 +58,7 @@ connectDB().then( async () => {
 			if(token === 'undefined' || token === '') {
 				token = null;				
 			}
-			console.log('TOKEN :', token);
+			
 			if (token) {
 				
 				try {
