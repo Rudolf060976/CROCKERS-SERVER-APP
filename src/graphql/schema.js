@@ -15,8 +15,8 @@ type Query {
 type Mutation {
 	addNewMenuGroup(input: newMenuGroupInput): AddNewMenuGroupMutationResponse!
 	addNewMenuItem(input: newMenuItemInput): AddNewMenuItemMutationResponse!
-	signUp(input: signUpInput!): Token!
-	logIn(login: String!, password: String!): Token!
+	signUp(input: signUpInput!): logInResponse!
+	logIn(login: String!, password: String!): logInResponse!
 }
 
 type UserExistResponse {
@@ -85,6 +85,13 @@ type AddNewMenuItemMutationResponse implements MutationResponse {
 	item: MenuItem
 }
 
+type logInResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+	token: String!
+}
+
 type PageInfo {
 	endCursor: String
 	hasNextPage: Boolean!
@@ -148,12 +155,6 @@ type User {
 	referencePoint: String!	
 	role: Role!
 }
-
-type Token {
-	token: String!
-}
-
-
 
 `;
 

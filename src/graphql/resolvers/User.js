@@ -1,7 +1,7 @@
 
 const { combineResolvers } = require('graphql-resolvers');
 
-const { AuthenticationError, UserInputError } = require('apollo-server-express');
+const { ApolloError } = require('apollo-server-express');
 
 const Authorization = require('./Authorization');
 
@@ -91,33 +91,70 @@ const resolvers = {
     },
     Mutation: {
         signUp: async (parent, { input }, { crudOperations }) => {
-                       
-            const user = await crudOperations.User.addNewUser(input);
+             
+            try {
+                
+                const user = await crudOperations.User.addNewUser(input);
 
-            const token = userTokens.generateUserToken(user);
+                const token = userTokens.generateUserToken(user);
+    
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Signed Up Successfully',                    
+                    token
+                };
 
-            return { token };
+
+            } catch (error) {
+                
+                return {
+                    code: '500',
+                    success: false,
+                    message: error.message,                    
+                    token: null
+                };
+            }
+          
 
         },
         logIn: async (parent, { login, password }, { models }) => {
 
-            const user = await models.User.findByLogin(login);
 
-            if (!user) {
+            try {
 
-                throw new UserInputError('No User with given credentials');
+                const user = await models.User.findByLogin(login);
 
-            }
+                if (!user) {
+    
+                    throw new ApolloError('No User with given credentials','LOGIN_DOES_NOT_EXIST');
+    
+                }
+    
+                const isValid = comparePasswords(password, user.password);
+    
+                if(!isValid) {
+                    throw new ApolloError('Invalid Password','INVALID_PASSWORD');
+                }
+                
+                const token = userTokens.generateUserToken(user);
+                console.log('ESTOY AQUI... TOKEN : ', token);
+                return { token };
+                
+            } catch (error) {
+                
+                if(!error.code) {
+                    error.code = '500'
+                }
+               
+                return {
+                    code: error.code,
+                    success: false,
+                    message: error.message,                    
+                    token: null
+                };
 
-            const isValid = comparePasswords(password, user.password);
-
-            if(!isValid) {
-				throw new AuthenticationError('Invalid Password');
-            }
-            
-            const token = userTokens.generateUserToken(user);
-
-            return { token };
+            }        
 
         }
     }

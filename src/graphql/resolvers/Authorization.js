@@ -1,11 +1,11 @@
-const { ForbiddenError } = require('apollo-server-express');
+const { ApolloError } = require('apollo-server-express');
 const { skip, combineResolvers } = require('graphql-resolvers');
 
 
 const isAuthenticated = (parent, args, { me }) => {
 
 
-    return me ? skip : new ForbiddenError('Authentication Required');
+    return me ? skip : new ApolloError('Authentication Required', 'AUTHENTICATION_REQUIRED');
 
 };
 
@@ -22,7 +22,7 @@ const isAdmin = combineResolvers(
 
         }
 
-        throw new ForbiddenError('User is not an Admin!');
+        throw new ApolloError('User is not an Admin!', 'USER_IS_NOT_ADMIN');
 
     }
 );

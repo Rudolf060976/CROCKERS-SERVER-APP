@@ -4,7 +4,7 @@ const express = require('express');
 
 const logger = require('morgan');
 
-const { ApolloServer, AuthenticationError } = require('apollo-server-express');
+const { ApolloServer, ApolloError } = require('apollo-server-express');
 
 const schema = require('./graphql/schema');
 
@@ -115,6 +115,28 @@ connectDB().then( async () => {
 				helperFunctions,
 				me
 			};
+		},
+		formatError: (err) => {
+
+			// ESTA FUNCION ES LLAMADA PARA CADA ERROR QUE APOLLO SERVER PASA AL CLIENTE. PUEDE UTILIZARSE PARA ENMASCARAR ERRORES O HACERLE MODIFICACIONES COMO SE QUIERA
+			// Don't give the specific errors to the client.
+			/* if (err.message.startsWith("Database Error: ")) {
+				return new Error('Internal server error');
+			  } */			  			  
+			// Otherwise return the original error.  The error can also
+			// be manipulated in other ways, so long as it's returned.
+
+			/*
+			if (err.originalError instanceof AuthenticationError) {
+				return new Error('Different authentication error message!');
+			} */
+
+
+			console.log('ERROR TO THE CLIENT: ', err);  // POR LOS MOMENTOS SOLO QUIERO VER EL FORMATO DEL ERROR PARA USARLO EN EL CLIENTE.
+
+
+			return err;
+
 		}
 	});
 
