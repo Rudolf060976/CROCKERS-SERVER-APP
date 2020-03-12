@@ -373,7 +373,10 @@ const generateWithQuery = async (first, last, after, before, model, query) => {
 
 		startCursor = toCursorHash(nodes[0].createdAt.getTime().toString());
 
-		documentsBefore = await model.find({ createdAt: { $lt: fromCursorStringToDate(fromCursorHash(startCursor))}}).limit(1).exec();
+		documentsBefore = await model.find({
+			...query,
+			createdAt: { $lt: fromCursorStringToDate(fromCursorHash(startCursor))}		
+		}).limit(1).exec();
 
 		hasPreviousPage = documentsBefore.length >= 1;
 
@@ -466,7 +469,10 @@ const generateWithQuery = async (first, last, after, before, model, query) => {
 		startCursor = toCursorHash(nodes[0].createdAt.getTime().toString());
 
 		
-		documentsAfter = await model.find({ createdAt: { $gt: fromCursorStringToDate(fromCursorHash(endCursor))}}).limit(1).exec();
+		documentsAfter = await model.find({
+			...query,
+			createdAt: { $gt: fromCursorStringToDate(fromCursorHash(endCursor))}
+		}).limit(1).exec();
 
 		hasNextPage = documentsAfter.length >= 1;
 
@@ -525,7 +531,10 @@ const generateWithQuery = async (first, last, after, before, model, query) => {
 
 		hasPreviousPage = documentsBefore.length >= 1;
 
-		documentsAfter = await model.find({ createdAt: { $gt: fromCursorStringToDate(fromCursorHash(endCursor))}}).limit(1).exec();
+		documentsAfter = await model.find({
+			...query,
+			createdAt: { $gt: fromCursorStringToDate(fromCursorHash(endCursor))}
+		}).limit(1).exec();
 
 		hasNextPage = documentsAfter.length >= 1;
 
@@ -552,9 +561,9 @@ const generateWithQuery = async (first, last, after, before, model, query) => {
 
 const validateInput = (first, last, after, before) => {
 
-	if (first <= 0 || last <=0) {
+	/* if (first <= 0 || last <=0) {
 		throw new ApolloError('first & last arguments must be positive values!','BAD_QUERY_ARGUMENTS');
-	}
+	} */
 
 	if (first && last) {
 		throw new ApolloError('first & last arguments must not be together!','BAD_QUERY_ARGUMENTS');

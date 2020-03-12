@@ -57,8 +57,9 @@ connectDB().then( async () => {
 			
 			if(token === 'undefined' || token === '') {
 				token = null;				
+				
 			}
-			
+			console.log('token: ', token);
 			if (token) {
 				
 				try {
@@ -101,12 +102,13 @@ connectDB().then( async () => {
 					// throw new AuthenticationError('Invalid or Expired Token. Log In again');
 
 					me = null;
+					
 
 				}
 
 			}	// NON AUTHENTICATED USERS - WHEN me = null - MIGHT BE ABLE TO PERFORM CERTAIN TYPES OF ACIONS AT
 			// THE RESOLVERS LEVEL
-			
+			console.log('me: ', me);
 			return {
 				ObjectID,
 				models,

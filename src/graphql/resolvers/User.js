@@ -138,8 +138,14 @@ const resolvers = {
                 }
                 
                 const token = userTokens.generateUserToken(user);
-                console.log('ESTOY AQUI... TOKEN : ', token);
-                return { token };
+                
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Logged In Successfully',                    
+                    token
+                };
+
                 
             } catch (error) {
                 

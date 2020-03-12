@@ -89,7 +89,7 @@ type logInResponse implements MutationResponse {
 	code: String!
 	success: Boolean!
 	message: String!
-	token: String!
+	token: String
 }
 
 type PageInfo {

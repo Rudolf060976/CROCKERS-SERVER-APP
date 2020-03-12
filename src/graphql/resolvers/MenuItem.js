@@ -10,7 +10,7 @@ const resolvers = {
 			const query = {
 				group: groupId
 			};
-
+			
 			const output = await helperFunctions.generateConnection.generateWithQuery(first, last, after, before, models.MenuItem, query);
 
 			return output;
@@ -53,7 +53,7 @@ const resolvers = {
 	},
 	MenuItem: {
 		price: menuItem => {
-			return Number.parseFloat(menuItem.price).toFixed(2);
+			return Number.parseFloat(menuItem.price);
 		}
 	}
 };
