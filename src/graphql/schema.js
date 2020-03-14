@@ -10,6 +10,8 @@ type Query {
 	getIfUserExists(username: String!, email: String!): UserExistResponse!
 	me: BasicUser
 	getUser: User
+	getCart(userId: ID!): [Cart]!
+	getCartTotals(userId: ID!): CartTotals!
 }
 
 type Mutation {
@@ -17,6 +19,62 @@ type Mutation {
 	addNewMenuItem(input: newMenuItemInput): AddNewMenuItemMutationResponse!
 	signUp(input: signUpInput!): logInResponse!
 	logIn(login: String!, password: String!): logInResponse!
+	addCartLine(input: cartLineInput!): addCartLineResponse!
+	deleteCartLine(lineId: ID!): deleteCartLineResponse!
+	updateCartLine(lineId: ID!, quantity: Int!): updateCartLineResponse!
+	deleteCart(userId: ID!): deleteCartResponse!
+}
+
+type Cart {
+	id: ID!
+	menuItem: CartMenuItem!
+	quantity: Int!
+	price: Float!
+	tax: Float!
+	itemTotal: Float!
+}
+
+type CartMenuItem {
+	id: ID!
+	name: String!
+	image: ID
+}
+
+type CartTotals {
+	count: Float!
+	subtotal: Float!
+	tax: Float!
+	total: Float!
+}
+
+input cartLineInput {
+	userId: ID!
+	itemId: ID!
+	quantity: Int!
+}
+
+type addCartLineResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!	
+}
+
+type deleteCartLineResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+}
+
+type deleteCartResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+}
+
+type updateCartLineResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
 }
 
 type UserExistResponse {
@@ -124,6 +182,7 @@ type MenuItem {
 	description: String
 	group: MenuGroup!
 	price: Float!
+	tax: Float!
 	image: ID
 	showAtHome: Boolean!
 }

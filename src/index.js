@@ -108,7 +108,7 @@ connectDB().then( async () => {
 
 			}	// NON AUTHENTICATED USERS - WHEN me = null - MIGHT BE ABLE TO PERFORM CERTAIN TYPES OF ACIONS AT
 			// THE RESOLVERS LEVEL
-			console.log('me: ', me);
+			
 			return {
 				ObjectID,
 				models,

@@ -270,7 +270,7 @@ const generate = async (first, last, after, before, model) => {
 				totalCount
 			};
 
-			// console.log('output :', output);
+			
 			
 			return output;
 		
@@ -552,7 +552,7 @@ const generateWithQuery = async (first, last, after, before, model, query) => {
 		totalCount
 	};
 
-	// console.log('output :', output);
+	
 	
 	return output;
 

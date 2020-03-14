@@ -20,6 +20,10 @@ const menuItemSchema = new mongoose.Schema({
 		type: types.Decimal128,
 		default: 0
 	},
+	tax: {
+		type: types.Decimal128,
+		default: 10
+	},
 	image: {
 		type: types.ObjectId,
 		required: false
