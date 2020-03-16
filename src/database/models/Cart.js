@@ -30,10 +30,20 @@ const cartSchema = new mongoose.Schema({
 		required: true,
 		default: 0
 	},
+	extras: [types.ObjectId],
+	extrasTotal: {
+		type: types.Decimal128,
+		required: true,
+		default: 0
+	},
 	tax: {
 		type: types.Decimal128,
 		required: true,
 		default: 10
+	},
+	comments: {
+		type: String,
+		maxlength: 500
 	}
 }, options );
 

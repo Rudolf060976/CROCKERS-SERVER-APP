@@ -81,6 +81,183 @@ const seedDatabase = async () => {
 			name: 'BEVERAGES'
 		}
 	]);
+
+	await models.Extra.create([
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'BACON',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'JALAPEÑOS',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'CHEDDAR',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'PARMESAN',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'MOZZARELLA',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'CAESAR DRESSING',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'ROMAINE',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'CARAMELIZED ONIONS',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id1,
+			name: 'SWISS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'DRIED FRUITS - MANGO',
+			price: 0.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'SEAFOOD - TUNA',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'SEAFOOD - SHRIMPS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'MEAT - CHICKEN',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'MEAT - BACON',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'VEGGIES - PEPPERS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id2,
+			name: 'VEGGIES - ,MUSHROOMS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id3,
+			name: 'BACON',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id3,
+			name: 'CHEDDAR',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id3,
+			name: 'PARMESAN',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id3,
+			name: 'GARLIC DRESSING',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id3,
+			name: 'JALAPEÑOS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'COOKIES - OREO',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'DRY FRUITS - NUTS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'ICECREAM - VANILLA',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'FRUITS - STRAWBERRIES',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'FRUITS - BANANAS',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'CARAMEL SAUCE',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'BROWNIES',
+			price: 1.99
+		},
+		{
+			_id: new ObjectID(),
+			group: id4,
+			name: 'PEANUT BUTTER',
+			price: 1.99
+		}
+	]);
 	
 
 	await models.MenuItem.create([

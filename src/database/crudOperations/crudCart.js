@@ -38,14 +38,14 @@ const addCartLine = async (userId, itemId, qty) => {
 
 const deleteCartLine = async (id) => {
 
+    if (!ObjectID.isValid(id)) {
+
+        throw new ApolloError('INVALID ID', '400');
+
+    }
+
     try {
-        
-        if (!ObjectID.isValid(id)) {
-
-            throw new ApolloError('INVALID ID', '400');
-
-        }
-
+    
         return models.Cart.findByIdAndDelete(id);
 
     } catch (error) {
@@ -127,7 +127,7 @@ const getCart = async (userId) => {
 				quantity: 1,
 				price: 1,
 				tax: 1,
-				itemTotal: { $multiply: ["$price","$quantity"] }
+				itemTotal: { $multiply: [{ $add: ["$price","$extrasTotal"] },"$quantity"] }
 			}},			
 			{ $sort: { createdAt: 1 } }	 
 		]).exec();	
@@ -157,9 +157,9 @@ const getCartTotals = async (userId) => {
 			{ $group: {
 				_id: null,
 				count: { $sum: "$quantity" },
-				subtotal: { $sum: { $multiply: ["$price", "$quantity"] } },
-				tax: { $sum: { $divide: [ { $multiply: ["$price", "$quantity", "$tax"] }, 100 ] } },
-				total: { $sum: { $multiply: [ "$price", "$quantity", { $add: [ 1, { $divide: [ "$tax", 100 ] } ] } ] } }
+				subtotal: { $sum: { $multiply: [{ $add: ["$price","$extrasTotal"] }, "$quantity"] } },
+				tax: { $sum: { $divide: [ { $multiply: [{ $add: ["$price","$extrasTotal"] }, "$quantity", "$tax"] }, 100 ] } },
+				total: { $sum: { $multiply: [ { $add: ["$price","$extrasTotal"] }, "$quantity", { $add: [ 1, { $divide: [ "$tax", 100 ] } ] } ] } }
 			}}
 		]);
 
@@ -171,6 +171,220 @@ const getCartTotals = async (userId) => {
 
 };
 
+const addExtraToCart = async (cartLineId, extraId) => {
+
+    try {
+        
+        const cartLine = await models.Cart.findById(cartLineId);
+
+        const extrasArray = cartLine.extras;
+    
+        if (extrasArray.includes(extraId)) {
+
+            throw new ApolloError('Extra Id is already included', '409');
+        
+        }
+        
+        cartLine.extras = [...extrasArray, extraId];
+    
+        const promises = cartLine.extras.map( id => {
+
+            return models.Extra.findById(id);
+
+        });
+
+        const extras = await Promise.all(promises);
+        
+        const total = extras.reduce((acc, item) => {
+                               
+            return acc + item.price;
+        
+        }, 0);
+        
+        cartLine.extrasTotal = total;
+        
+        return await cartLine.save();
+     
+    } catch (error) {
+        
+
+        throw new ApolloError(error.message, '500');
+
+    }   
+
+};
+
+const addManyExtrasToCart = async (cartLineId, extrasIdArray) => {
+
+    try {
+
+        const cartLine = await models.Cart.findById(cartLineId);
+  
+        for (let i = 0; i < extrasIdArray.length; i++) {
+    
+            const extrasArray = cartLine.extras;
+    
+           if (!extrasArray.includes(extrasIdArray[i])) {
+    
+            cartLine.extras = [...extrasArray, extrasIdArray[i]];
+            
+           }
+    
+        }
+
+        const promises = cartLine.extras.map( id => {
+
+            return models.Extra.findById(id);
+
+        });
+
+        const extras = await Promise.all(promises);
+
+        const total = extras.reduce((acc, item) => {
+
+            return acc + item.price;
+
+        }, 0);
+       
+        cartLine.extrasTotal = total;
+    
+        return await cartLine.save();
+        
+    } catch (error) {
+
+        throw new ApolloError(error.message, '500');
+        
+    }  
+  
+
+};
+
+const removeExtraFromCart = async (cartLineId, extraId) => {
+
+    try {
+
+        const cartLine = await models.Cart.findById(cartLineId);
+
+        const extrasArray = cartLine.extras;
+    
+        if (!extrasArray.includes(extraId)) {
+
+            throw new ApolloError('Extra Id was not included', '404');
+
+        }
+
+        const newExtrasArray = extrasArray.filter(id => {
+    
+            return id !== extraId;
+        
+        });
+        
+        cartLine.extras = newExtrasArray;
+        
+        const promises = cartLine.extras.map( id => {
+
+            return models.Extra.findById(id);
+
+        });
+
+        const extras = await Promise.all(promises);
+
+        const total = extras.reduce((acc, item) => {
+
+            return acc + item.price;
+
+        }, 0);
+       
+        cartLine.extrasTotal = total;
+    
+        return await cartLine.save();
+       
+        
+    } catch (error) {
+
+        throw new ApolloError(error.message, '500');
+        
+    }   
+
+}
+
+
+const removeManyExtrasFromCart = async (cartLineId, extrasIdArray) => {
+
+    try {
+
+        const cartLine = await models.Cart.findById(cartLineId);
+       
+
+        for (let i = 0; i < extrasIdArray.length; i++) {
+
+            const extrasArray = cartLine.extras;
+
+            if (extrasArray.includes(extrasIdArray[i])) {
+
+                const newExtrasArray = extrasArray.filter(id => {
+    
+                    return id !== extrasIdArray[i];
+            
+                });
+    
+                cartLine.extras = newExtrasArray;               
+
+            }        
+
+        }
+
+        const promises = cartLine.extras.map( id => {
+
+            return models.Extra.findById(id);
+
+        });
+
+        const extras = await Promise.all(promises);
+
+        const total = extras.reduce((acc, item) => {
+
+            return acc + item.price;
+
+        }, 0);
+       
+        cartLine.extrasTotal = total;
+    
+        return await cartLine.save();
+
+        
+    } catch (error) {
+
+        throw new ApolloError(error.message, '500');
+        
+    }   
+
+}
+
+const removeAllExtrasFromCart = async (cartLineId) => {
+
+
+    try {
+        
+        const cartLine = await models.Cart.findById(cartLineId);
+
+        cartLine.extras = [];
+
+        cartLine.extrasTotal = 0;
+
+        return await cartLine.save();
+
+
+    } catch (error) {
+        
+
+        throw new ApolloError(error.message, '500');
+
+    }
+
+
+};
+
 
 module.exports = {
     addCartLine,
@@ -178,5 +392,10 @@ module.exports = {
     updateCartLine,
     getCart,
     getCartTotals,
-    deleteCart
+    deleteCart,
+    addExtraToCart,
+    removeExtraFromCart,
+    addManyExtrasToCart,
+    removeManyExtrasFromCart,
+    removeAllExtrasFromCart
 };

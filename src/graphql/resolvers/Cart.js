@@ -5,7 +5,10 @@ const resolvers = {
         getCart: async (parent, { userId }, { crudOperations }) => {
 
             const cartArray = await crudOperations.Cart.getCart(userId);
-                      
+            
+            if (cartArray.length === 0) return [];
+
+            
             const newCart = cartArray.map(line => {
 
                 const {
@@ -78,10 +81,27 @@ const resolvers = {
                 
                 const cartLine = await crudOperations.Cart.addCartLine(userId, itemId, quantity);
 
+                const {
+                    _id,
+                    user,
+                    menuItem,
+                    quantity,
+                    price,
+                    tax
+                } = cartLine;
+
                 return {
                     code: '200',
                     success: true,
-                    message: 'Cart Line Added successfully!'
+                    message: 'Cart Line Added successfully!',
+                    cartLine: {
+                        id: _id,
+                        user,
+                        menuItem,
+                        quantity,
+                        price,
+                        tax
+                    }
                 };
 
 
@@ -94,7 +114,8 @@ const resolvers = {
                 return {
                     code: error.code,
                     success: false,
-                    message: error.message
+                    message: error.message,
+                    cartLine: null
                 };
 
             }
@@ -190,6 +211,93 @@ const resolvers = {
                 };               
 
             }
+
+        },
+        addManyExtrasToCart: async (parent, { cartLineId, extrasIdArray }, { crudOperations }) => {
+
+            try {
+                
+                await crudOperations.Cart.addManyExtrasToCart(cartLineId, extrasIdArray);
+
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Sucess!!'
+                };
+
+            } catch (error) {
+                
+                if (!error.code) {
+                    error.code = '500';
+                }
+
+                return {
+                    code: error.code,
+                    success: false,
+                    message: error.message
+                };
+
+
+            }
+            
+
+        },
+        removeManyExtrasFromCart: async (parent, { cartLineId, extrasIdArray }, { crudOperations }) => {
+
+            try {
+                
+                await crudOperations.Cart.removeManyExtrasFromCart(cartLineId, extrasIdArray);
+
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Sucess!!'
+                };
+
+            } catch (error) {
+                
+                if (!error.code) {
+                    error.code = '500';
+                }
+
+                return {
+                    code: error.code,
+                    success: false,
+                    message: error.message
+                };
+
+
+            }
+            
+
+        },
+        removeAllExtrasFromCart: async (parent, { cartLineId }, { crudOperations }) => {
+
+            try {
+                
+                await crudOperations.Cart.removeAllExtrasFromCart(cartLineId);
+
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Success!'
+                };
+
+
+            } catch (error) {
+                
+                if (!error.code) {
+                    error.code = '500';
+                }
+
+                return {
+                    code: error.code,
+                    success: false,
+                    message: error.message
+                };
+
+            }
+
 
         }
 

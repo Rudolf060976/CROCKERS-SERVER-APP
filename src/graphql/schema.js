@@ -12,6 +12,7 @@ type Query {
 	getUser: User
 	getCart(userId: ID!): [Cart]!
 	getCartTotals(userId: ID!): CartTotals!
+	getExtrasByItem(itemId: ID!): [Extra]!	
 }
 
 type Mutation {
@@ -23,6 +24,16 @@ type Mutation {
 	deleteCartLine(lineId: ID!): deleteCartLineResponse!
 	updateCartLine(lineId: ID!, quantity: Int!): updateCartLineResponse!
 	deleteCart(userId: ID!): deleteCartResponse!
+	addManyExtrasToCart(cartLineId: ID!, extrasIdArray: [ID!]!): addExtrasResponse!
+	removeManyExtrasFromCart(cartLineId: ID!, extrasIdArray: [ID!]!): removeExtrasResponse!
+	removeAllExtrasFromCart(cartLineId: ID!): removeExtrasResponse!
+}
+
+type Extra {
+	id: ID!
+	group: ID!
+	name: String!
+	price: Float!
 }
 
 type Cart {
@@ -53,10 +64,32 @@ input cartLineInput {
 	quantity: Int!
 }
 
-type addCartLineResponse implements MutationResponse {
+type addExtrasResponse implements MutationResponse {
 	code: String!
 	success: Boolean!
 	message: String!	
+}
+
+type removeExtrasResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!	
+}
+
+type addCartLineResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+	cartLine: CartLine	
+}
+
+type CartLine {
+	id: ID! 
+	user: ID!
+	menuItem: ID!
+	quantity: Int!
+	price: Float!
+	tax: Float!
 }
 
 type deleteCartLineResponse implements MutationResponse {
