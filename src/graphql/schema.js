@@ -27,6 +27,7 @@ type Mutation {
 	addManyExtrasToCart(cartLineId: ID!, extrasIdArray: [ID!]!): addExtrasResponse!
 	removeManyExtrasFromCart(cartLineId: ID!, extrasIdArray: [ID!]!): removeExtrasResponse!
 	removeAllExtrasFromCart(cartLineId: ID!): removeExtrasResponse!
+	updateCommentsToCart(cartLineId: ID!, comments: String!): updateCartLineResponse!
 }
 
 type Extra {
@@ -62,6 +63,7 @@ input cartLineInput {
 	userId: ID!
 	itemId: ID!
 	quantity: Int!
+	comments: String!
 }
 
 type addExtrasResponse implements MutationResponse {
@@ -90,6 +92,7 @@ type CartLine {
 	quantity: Int!
 	price: Float!
 	tax: Float!
+	comments: String!
 }
 
 type deleteCartLineResponse implements MutationResponse {
@@ -108,6 +111,7 @@ type updateCartLineResponse implements MutationResponse {
 	code: String!
 	success: Boolean!
 	message: String!
+	cartLine: CartLine
 }
 
 type UserExistResponse {

@@ -74,20 +74,22 @@ const resolvers = {
             const {
                 userId,
                 itemId,
-                quantity
+                quantity,  
+                comments,
             } = input;
 
             try {
                 
-                const cartLine = await crudOperations.Cart.addCartLine(userId, itemId, quantity);
+                const cartLine = await crudOperations.Cart.addCartLine(userId,itemId,quantity, comments);
 
                 const {
                     _id,
                     user,
                     menuItem,
-                    quantity,
+                    quantity: quantity2, // PORQUE EN EL BLOQUE DE ARRIBA HAY UNA VARIABLE quantity
                     price,
-                    tax
+                    tax,
+                    comments: comments2
                 } = cartLine;
 
                 return {
@@ -98,9 +100,10 @@ const resolvers = {
                         id: _id,
                         user,
                         menuItem,
-                        quantity,
+                        quantity: quantity2,
                         price,
-                        tax
+                        tax,
+                        comments: comments2
                     }
                 };
 
@@ -157,12 +160,32 @@ const resolvers = {
 
             try {
                 
-                await crudOperations.Cart.updateCartLine(lineId, quantity);
+                const cartLine = await crudOperations.Cart.updateCartLine(lineId, quantity);
+
+                const {
+                    _id,
+                    user,
+                    menuItem,
+                    quantity: quantity2, // PORQUE EN EL BLOQUE DE ARRIBA HAY UNA VARIABLE quantity
+                    price,
+                    tax,
+                    comments: comments2
+                } = cartLine;
+
 
                 return {
                     code: '200',
                     success: true,
-                    message: 'Line Updated Successfully'
+                    message: 'Line Updated Successfully',
+                    cartLine: {
+                        id: _id,
+                        user,
+                        menuItem,
+                        quantity: quantity2,
+                        price,
+                        tax,
+                        comments: comments2
+                    }
                 };
 
 
@@ -176,7 +199,8 @@ const resolvers = {
                 return {
                     code: error.code,
                     success: false,
-                    message: error.message
+                    message: error.message,
+                    cartLine: null
                 };               
 
             }
@@ -299,6 +323,57 @@ const resolvers = {
             }
 
 
+        },
+        updateCommentsToCart: async (parent, { cartLineId, comments }, { crudOperations }) => {
+
+            try {
+                
+                const cartLine = await crudOperations.Cart.updateCommentsToCart(cartLineId, comments);
+
+                const {
+                    _id,
+                    user,
+                    menuItem,
+                    quantity,
+                    price,
+                    tax,
+                    comments: comments2
+                } = cartLine;
+
+
+                return {
+                    code: '200',
+                    success: true,
+                    message: 'Line Updated Successfully',
+                    cartLine: {
+                        id: _id,
+                        user,
+                        menuItem,
+                        quantity,
+                        price,
+                        tax,
+                        comments: comments2
+                    }
+                };
+
+
+            } catch (error) {
+                
+                if (!error.code) {
+
+                    error.code = '500';
+                }
+
+                return {
+                    code: error.code,
+                    success: false,
+                    message: error.message,
+                    cartLine: null
+                }; 
+
+            }
+
+
         }
 
     },
@@ -338,6 +413,18 @@ const resolvers = {
         total: (cartTotals) => {
 
             return Number.parseFloat(cartTotals.total); 
+
+        }
+    },
+    CartLine: {
+        price: (cartline) => {
+
+            return Number.parseFloat(cartline.price); 
+
+        },
+        tax: (cartline) => {
+
+            return Number.parseFloat(cartline.tax); 
 
         }
     }

@@ -43,7 +43,7 @@ const cartSchema = new mongoose.Schema({
 	},
 	comments: {
 		type: String,
-		maxlength: 500
+		maxlength: 300
 	}
 }, options );
 

@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 
 
-const addCartLine = async (userId, itemId, qty) => {
+const addCartLine = async (userId, itemId, qty, comments = '') => {
 
     try {
         
@@ -23,7 +23,8 @@ const addCartLine = async (userId, itemId, qty) => {
             menuItem: itemId,
             quantity: qty,
             price,
-            tax
+            tax,
+            comments
         });
 
 
@@ -240,9 +241,11 @@ const addManyExtrasToCart = async (cartLineId, extrasIdArray) => {
 
         const extras = await Promise.all(promises);
 
+        console.log('extras:', extras);
+
         const total = extras.reduce((acc, item) => {
 
-            return acc + item.price;
+            return acc + Number.parseFloat(item.price); //CUALQUIER CALCULO QUE SE HAGA CON UN CAMPO DECIMAL HAY QUE CONVERTIRLO EN FLOAT AL LEERLO. PERO CUANDO SE ESCRIBE MONGOOSE LO CONVIERTE DE NUEVO A DECIMAL SIN PROBLEMAS.
 
         }, 0);
        
@@ -385,6 +388,20 @@ const removeAllExtrasFromCart = async (cartLineId) => {
 
 };
 
+const updateCommentsToCart = async (cartLineId, comments) => {
+
+    try {
+        
+        return await models.Cart.findByIdAndUpdate(cartLineId,{ comments }, { new: true });   
+
+    } catch (error) {
+        
+        throw new ApolloError(error.message, '500');
+
+    }
+
+};
+
 
 module.exports = {
     addCartLine,
@@ -397,5 +414,6 @@ module.exports = {
     removeExtraFromCart,
     addManyExtrasToCart,
     removeManyExtrasFromCart,
-    removeAllExtrasFromCart
+    removeAllExtrasFromCart,
+    updateCommentsToCart
 };
