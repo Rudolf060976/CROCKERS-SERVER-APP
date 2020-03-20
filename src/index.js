@@ -152,7 +152,7 @@ connectDB().then( async () => {
 	server.applyMiddleware({ app, path: '/graphql', cors: corsOptions });
 
 	
-	app.use(express.static(path.join(__dirname,'./../','public')));
+	app.use(express.static(path.join(__dirname,'/../','public')));
 
 	
 	app.use(cors(corsOptions));
@@ -166,7 +166,7 @@ connectDB().then( async () => {
 
 	app.all('*', (req, res) => { // DEBE ESTAR AL FINAL DE TODAS LAS RUTAS
 		
-		res.sendFile(path.join(__dirname,'./../public','index.html'));
+		res.sendFile(path.join(__dirname,'/../public','index.html'));
 		
 	});
 	
