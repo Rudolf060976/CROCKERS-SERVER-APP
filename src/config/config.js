@@ -1,4 +1,4 @@
-require('custom-env').env(true, __dirname + './../../');
+require('custom-env').env(true, __dirname + '/../../');
 
 // const randomstring = require('randomstring');
 
@@ -9,7 +9,7 @@ const nconf = require('nconf');
 
 nconf.argv()
     .env()
-    .file( { file: path.join(__dirname + './../../' + 'config.json')});
+    .file( { file: path.join(__dirname + '/../../' + 'config.json')});
 
 // nconf.set('RANDOM_STRING10', randomstring.generate(10));
 
