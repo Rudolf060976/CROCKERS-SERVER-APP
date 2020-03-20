@@ -1,0 +1,9 @@
+{
+	"CONFIG1":  "XXXXXX",
+	"DB_NAME": "crockers-database",
+	"Menu_Item_Image_Max_Size_MBytes": 20,
+	"Erase_And_Seed_Database_on_Startup": true,
+	"Client_URL": "http://localhost:3000",
+	"Token_Expiration_Time_In_Seconds": 6000,
+	"Token_Secret_String": "wr3r23fwfwefwekwself.2456342.dawqdq"
+}
