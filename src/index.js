@@ -49,6 +49,7 @@ connectDB().then( async () => {
 	const server = new ApolloServer({
 		typeDefs: schema,
 		resolvers,
+		introspection: true,
 		context: async ({ req }) => {
 			
 			let me = null; // me SON LOS DATOS BASICOS DEL USUARIO AUTENTICADO, SI LO HAY
