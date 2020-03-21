@@ -4,7 +4,7 @@ const express = require('express');
 
 const logger = require('morgan');
 
-const { ApolloServer, ApolloError } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 
 const schema = require('./graphql/schema');
 

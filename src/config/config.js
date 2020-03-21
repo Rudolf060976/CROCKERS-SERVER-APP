@@ -20,7 +20,9 @@ nconf.defaults({
 		Menu_Item_Image_Max_Size_MBytes: 20,
         Erase_And_Seed_Database_on_Startup: true,
         Token_Expiration_Time_In_Seconds: 30,
-        Token_Secret_String: "wr3r23fwfwefwekwself.2456342.dawqdq"
+        Token_Secret_String: "wr3r23fwfwefwekwself.2456342.dawqdq",
+        Client_URL_DEVELOPMENT: "http://localhost:3000",
+        Client_URL_PRODUCTION: "http://localhost:3000"
 });
 
 const env = nconf.get('NODE_ENV') || 'development';
