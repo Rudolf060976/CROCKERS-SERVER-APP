@@ -34,6 +34,17 @@ if (env === 'development') {
     mongoUri = nconf.get('MONGODB_URI') + '/' + nconf.get('DB_NAME') + '-Test';
 }
 
+let clientUrl = '';
+
+if (env === 'production') {
+
+    clientUrl = nconf.get('Client_URL_PRODUCTION');
+
+} else {
+
+    clientUrl = nconf.get('Client_URL_DEVELOPMENT');
+}
+
 console.log('env *****', env);
 console.log('PORT = ', nconf.get('PORT'));
 console.log('MONGODB_URI = ', mongoUri);
@@ -48,7 +59,7 @@ module.exports = {
         PORT: nconf.get('PORT'),
     },
     general: {
-        Client_URL: nconf.get('Client_URL')
+        Client_URL: clientUrl
     },
     db: {
 		DB_NAME: nconf.get('DB_NAME'),
