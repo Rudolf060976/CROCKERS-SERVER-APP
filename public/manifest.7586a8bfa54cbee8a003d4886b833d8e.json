@@ -1,0 +1,42 @@
+{
+  "icons": [
+    {
+      "src": "/icon_512x512.1592901804e3338457acd88866f16c2a.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_384x384.5cb626b9f147f531b369067cc63b95c1.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_256x256.3f341f6afcbcfcd7f6570535d9ff2565.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_192x192.5100d0fa3e14d127a301a975d43414a6.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_128x128.75035da22e15651ec3154ca3772faa44.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_96x96.7f14c0c7c95fb7806f5cd2b1a6194827.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "CROCKERS RESTAURANT WEBSITE",
+  "short_name": "CROCKERS",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "CROCKERS FOOD DELIVERY APP",
+  "background_color": "#ffffff",
+  "theme_color": "#D9CA9C"
+}
