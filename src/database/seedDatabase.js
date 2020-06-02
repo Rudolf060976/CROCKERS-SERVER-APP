@@ -56,29 +56,42 @@ const seedDatabase = async () => {
 	const idImageMilkShakes7 = new ObjectID();
 
 
+	const idImageGroupHAM = new ObjectID();
+	const idImageGroupFRIES = new ObjectID();
+	const idImageGroupSALAD = new ObjectID();
+	const idImageGroupMILK = new ObjectID();
+	const idImageGroupBEVE = new ObjectID();
+
+
+
 	// PRIMERO LOS GRUPOS
 
 	
 	await models.MenuGroup.create([
 		{
 			_id: id1,
-			name: 'BURGERS'
+			name: 'BURGERS',
+			image: idImageGroupHAM
 		},
 		{
 			_id: id2,
-			name: 'SALADS'
+			name: 'SALADS',
+			image: idImageGroupSALAD
 		},
 		{
 			_id: id3,
-			name: 'FRIES'
+			name: 'FRIES',
+			image: idImageGroupFRIES
 		},
 		{
 			_id: id4,
-			name: 'MILKSHAKES'
+			name: 'MILKSHAKES',
+			image: idImageGroupMILK
 		},
 		{
 			_id: id5,
-			name: 'BEVERAGES'
+			name: 'BEVERAGES',
+			image: idImageGroupBEVE
 		}
 	]);
 
@@ -641,6 +654,18 @@ const seedDatabase = async () => {
 	stream27.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes5, 'file27'));
 	stream28.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes6, 'file28'));
 	stream29.pipe(gridFSBucket.openUploadStreamWithId(idImageMilkShakes7, 'file29'));
+
+	const stream30 = fs.createReadStream(__dirname + '/test_data/images/Groups/HAM.png');
+	const stream31 = fs.createReadStream(__dirname + '/test_data/images/Groups/FRIES.png');
+	const stream32 = fs.createReadStream(__dirname + '/test_data/images/Groups/SALAD.png');
+	const stream33 = fs.createReadStream(__dirname + '/test_data/images/Groups/MILK.png');
+	const stream34 = fs.createReadStream(__dirname + '/test_data/images/Groups/BEVE.png');
+
+	stream30.pipe(gridFSBucket.openUploadStreamWithId(idImageGroupHAM, 'file30'));
+	stream31.pipe(gridFSBucket.openUploadStreamWithId(idImageGroupFRIES, 'file31'));
+	stream32.pipe(gridFSBucket.openUploadStreamWithId(idImageGroupSALAD, 'file32'));
+	stream33.pipe(gridFSBucket.openUploadStreamWithId(idImageGroupMILK, 'file33'));
+	stream34.pipe(gridFSBucket.openUploadStreamWithId(idImageGroupBEVE, 'file34'));
 
 	console.log('DATABASE CREATED AND TEST DATA LOADED ......')
 

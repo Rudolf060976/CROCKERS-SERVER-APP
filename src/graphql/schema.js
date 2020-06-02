@@ -122,6 +122,7 @@ type UserExistResponse {
 input newMenuGroupInput {
 	name: String!
 	description: String
+	image: String
 }
 
 input newMenuItemInput {
@@ -211,6 +212,7 @@ type MenuGroup {
 	id: ID!
 	name: String!
 	description: String
+	image: ID
 }
 
 type MenuItem {

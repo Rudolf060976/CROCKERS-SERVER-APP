@@ -148,6 +148,8 @@ connectDB().then( async () => {
 		
 	const menuItemRoutes = require('./expressRoutes/menuItemRoutes');
 
+	const menuGroupRoutes = require('./expressRoutes/menuGroupRoutes');
+
 
 	server.applyMiddleware({ app, path: '/graphql', cors: corsOptions });
 
@@ -162,6 +164,8 @@ connectDB().then( async () => {
 
 
 	app.use('/api/menuitems', menuItemRoutes);
+
+	app.use('/api/menugroups', menuGroupRoutes);
 
 
 	app.all('*', (req, res) => { // DEBE ESTAR AL FINAL DE TODAS LAS RUTAS

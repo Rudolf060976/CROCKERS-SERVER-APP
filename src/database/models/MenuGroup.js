@@ -11,6 +11,9 @@ const menuGroupSchema = new mongoose.Schema({
 	description: {
 		type: String
 	},
+	image: {
+		type: String
+	},
 	createdAt: {
 		type: types.Date,
 		default: new Date()

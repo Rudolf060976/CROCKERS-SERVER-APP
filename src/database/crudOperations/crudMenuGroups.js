@@ -25,6 +25,57 @@ const addNewMenuGroup = async (name, description) => {
 
 };
 
+
+const addMenuGroupImage = async (groupId, imageId) => {
+
+
+	try {
+		
+		const item = await models.MenuGroup.findById(groupId);
+
+		if(!item) {
+			throw new ApolloError('GroupId Not Found','500');
+		}
+
+		item.image = imageId;
+
+		const newItem = await item.save();
+
+		return newItem;
+
+
+	} catch (error) {
+		
+		throw new ApolloError('Could not add Image to Group', '500');
+	}
+
+};
+
+
+const getMenuGroupById = async groupId => {
+
+
+	try {
+	
+		const item = await models.MenuGroup.findById(groupId);
+
+		if(!item) {
+			throw new ApolloError('GroupId Not Found');
+		}
+
+		return item;
+
+
+	} catch (error) {
+		
+		throw new ApolloError('Could not find the Group', '500');
+
+	}
+
+};
+
+
+
 const getAllMenuGroups = async () => {
 
 	try {
@@ -41,5 +92,7 @@ const getAllMenuGroups = async () => {
 
 module.exports = {
 	addNewMenuGroup,
-	getAllMenuGroups
+	getAllMenuGroups,
+	addMenuGroupImage,
+	getMenuGroupById
 };
