@@ -47,7 +47,7 @@ const fileFilter = (req, file, cb) => {
 
 	// SELECT HERE WICH FILES TO IGNORE CALLING cb(null, false) or cb(new Error())
 
-	if (file.mimetype !== 'image/jpeg' || file.mimetype !== 'image/gif' || file.mimetype !== 'image/png') {
+	if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/gif' && file.mimetype !== 'image/png') {
 
 		cb(null, false);
 

@@ -4,6 +4,8 @@ const express = require('express');
 
 const logger = require('morgan');
 
+const createError = require('http-errors');
+
 const { ApolloServer } = require('apollo-server-express');
 
 const schema = require('./graphql/schema');
@@ -168,12 +170,39 @@ connectDB().then( async () => {
 	app.use('/api/menugroups', menuGroupRoutes);
 
 
-	app.all('*', (req, res) => { // DEBE ESTAR AL FINAL DE TODAS LAS RUTAS
-		
-		res.sendFile(path.join(__dirname,'/../public','index.html'));
-		
+	// PARA EL API REST, TIENE QUE HABER UNA MIDDLEWARE AL FINAL, QUE CAPTURE CUALQUIER REQUEST A LA API QUE NO EXISTE.
+
+app.all('/api/*', (req, res, next) => {
+
+    throw createError(404, "That Route could not be found");
+
+});
+
+// PARA EL FRONT END QUE ES UNA SPA, CUANDO SE REFRESCA LA PAGINA EL BROWSER HACE UN GET REQUEST AL SERVIDOR, Y COMO LAS RUTAS EN UNA SPA SON EN EL CLIENTE, EL SERVIDOR TIENE QUE DEVOLVER SIEMPRE index.html
+
+app.all('*', (req, res) => {
+
+    res.sendFile(path.join(__dirname,'/../public','index.html'));
+
+});
+
+// Error handler
+
+app.use((err, req, res, next) => {
+    // when you add a custom error handler, you must delegate to the default Express error handler, when the headers have already been sent to the client:
+    if (res.headersSent) {
+        return next(err)
+    }
+
+    return res.status(err.status || 500).json({
+		error: createError(err.status, err.message),
+		ok: false,
+		status: err.status,
+		message: 'ERROR: ' + err.message,
+		data: null
 	});
-	
+
+});
 
 	app.listen({ port: config.env.PORT }, () => {
 	

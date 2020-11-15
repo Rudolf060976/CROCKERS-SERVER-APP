@@ -4,6 +4,8 @@ const types = mongoose.SchemaTypes;
 
 const bcrypt = require('bcryptjs');
 
+const uniqueValidator = require('mongoose-unique-validator');
+
 
 const userSchema = new mongoose.Schema({
 
@@ -119,6 +121,8 @@ const userSchema = new mongoose.Schema({
 		default: 'USER'
 	}
 });
+
+userSchema.plugin(uniqueValidator);
 
 
 userSchema.statics.findByLogin = async function(login) {
